@@ -4,7 +4,7 @@ class ContentBox extends React.Component {
   render() {
     return (
       <div className="iat-content-box">
-        {props.children}
+        {this.props.children}
       </div>
     )
   }
