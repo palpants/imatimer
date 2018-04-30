@@ -11,6 +11,15 @@ class App extends React.Component {
   constructor() {
     super();
 
+    this.timerGroupAdd = this.timerGroupAdd.bind(this);
+    this.timerGroupRemove = this.timerGroupRemove.bind(this);
+    this.timerGroupUpdate = this.timerGroupUpdate.bind(this);
+    this.timerAdd = this.timerAdd.bind(this);
+    this.timerRemove = this.timerRemove.bind(this);
+    this.timerUpdate = this.timerUpdate.bind(this);
+    this.timerRecordStart = this.timerRecordStart.bind(this);
+    this.timerRecordEnd = this.timerRecordEnd.bind(this);
+
     this.state = {
       timerGroups: {
         1: {
@@ -72,6 +81,74 @@ class App extends React.Component {
 
   }
 
+  timerGroupAdd(timerGroup) {
+    const timerGroups = {...this.state.timerGroups};
+    // add the new timerGroup
+    const timestamp = Date.now();
+    timerGroups[`timerGroup-${timestamp}`] = timerGroup;
+    // set state
+    this.setState({ fishes: fishes });
+  }
+
+  timerGroupRemove(timerGroupKey) {
+    let timerGroups = {...this.state.timerGroups};
+    // firebase requires set to null instead of delete
+    timerGroups[timerGroupKey] = null;
+
+    this.setState({ timerGroups: timerGroups });
+  }
+
+  timerGroupUpdate(timerGroupKey, updatedTimerGroup) {
+    let timerGroups = {...this.state.timerGroups};
+    // update existing timerGroup
+    timerGroups[timerGroupKey] = updatedTimer;
+
+    this.setState({ timerGroups: timerGroups });
+  }
+
+  timerAdd(timerGroupKey, timer) {
+    // copy state
+    let timerGroups = {...this.state.timerGroups};
+    // add the new timer
+    const timestamp = Date.now();
+    timerGroups[timerGroupKey].timers[`timer-${timestamp}`] = timer;
+    // set state
+    this.setState({ timerGroups: timerGroups });
+  }
+
+  timerRemove(timerGroupKey, timerKey) {
+    let timerGroups = {...this.state.timerGroups};
+    // firebase requires set to null instead of delete
+    timerGroups[timerGroupKey].timers[timerKey] = null;
+
+    this.setState({ timerGroups: timerGroups });
+  }
+
+  timerUpdate(timerGroupKey, timerKey, updatedTimer) {
+    let timerGroups = {...this.state.timerGroups};
+    // update existing timer
+    timerGroups[timerGroupKey].timers[timerKey] = updatedTimer;
+
+    this.setState({ timerGroups: timerGroups });
+  }
+
+  timerRecordStart(timerGroupKey, timerKey) {
+    let timerGroups = {...this.state.timerGroups};
+    // create new record
+    const timestamp = Date.now();
+    timerGroups[timerGroupKey].timers[timerKey].records[`record-${timestamp}`].start = timestamp;
+
+    this.setState({ timerGroups: timerGroups });
+  }
+
+  timerRecordEnd(timerGroupKey, timerKey, recordKey) {
+    let timerGroups = {...this.state.timerGroups};
+    // end existing record
+    timerGroups[timerGroupKey].timers[timerKey].records[recordKey].end = timestamp;
+
+    this.setState({ timerGroups: timerGroups });
+  }
+
   render() {
     return (
       <div className="App">
@@ -92,7 +169,7 @@ class App extends React.Component {
         <footer>
           <p>I like to footer</p>
           <Modal title="Privacy">
-            <p>All timer data is stored only on your local computer, so there is nothing to keep private.</p>
+            <p>All timer data is stored locally in your web browser, so there is nothing to keep private.</p>
           </Modal>
           <Modal title="Export To File">
             <p>asdf</p>
