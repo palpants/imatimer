@@ -6,6 +6,7 @@ import AddTimer from './AddTimer';
 class TimerGroup extends React.Component {
   render() {
     const group = this.props.group;
+    const startTime = Date.now();
 
     return (
       <div className="iat-group">
@@ -14,7 +15,16 @@ class TimerGroup extends React.Component {
         {
           Object
             .keys(group.timers)
-            .map((key) => <Timer key={key} index={key} timer={group.timers[key]} />)
+            .map((key) => <Timer
+              key={key}
+              index={key}
+              timer={group.timers[key]}
+              timerRemove={group.timerRemove}
+              timerUpdate={group.timerUpdate}
+              timerRecordStart={group.timerRecordStart}
+              timerRecordEnd={group.timerRecordEnd}
+              start={startTime}
+            />)
         }
       </div>
     )

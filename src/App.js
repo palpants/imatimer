@@ -21,13 +21,17 @@ class App extends React.Component {
     this.timerRecordEnd = this.timerRecordEnd.bind(this);
 
     this.state = {
+      active: {
+        timerGroup: 1,
+        timer: 2
+      },
       timerGroups: {
         1: {
           title: 'Timer Group 1',
           time: 123,
           timers: {
             1: {
-              title: 'I like to party',
+              title: 'I like to time',
               time: 63,
               records: {
                 1: {
@@ -61,7 +65,7 @@ class App extends React.Component {
           time: 67,
           timers: {
             1: {
-              title: 'This is a pretty long timer title',
+              title: 'This is a timer',
               time: 67,
               records: {
                 1: {
@@ -86,8 +90,8 @@ class App extends React.Component {
     // add the new timerGroup
     const timestamp = Date.now();
     timerGroups[`timerGroup-${timestamp}`] = timerGroup;
-    // set state
-    this.setState({ fishes: fishes });
+
+    this.setState({ timerGroups: timerGroups });
   }
 
   timerGroupRemove(timerGroupKey) {
@@ -101,18 +105,17 @@ class App extends React.Component {
   timerGroupUpdate(timerGroupKey, updatedTimerGroup) {
     let timerGroups = {...this.state.timerGroups};
     // update existing timerGroup
-    timerGroups[timerGroupKey] = updatedTimer;
+    timerGroups[timerGroupKey] = updatedTimerGroup;
 
     this.setState({ timerGroups: timerGroups });
   }
 
   timerAdd(timerGroupKey, timer) {
-    // copy state
     let timerGroups = {...this.state.timerGroups};
     // add the new timer
     const timestamp = Date.now();
     timerGroups[timerGroupKey].timers[`timer-${timestamp}`] = timer;
-    // set state
+
     this.setState({ timerGroups: timerGroups });
   }
 
@@ -144,29 +147,55 @@ class App extends React.Component {
   timerRecordEnd(timerGroupKey, timerKey, recordKey) {
     let timerGroups = {...this.state.timerGroups};
     // end existing record
+    const timestamp = Date.now();
     timerGroups[timerGroupKey].timers[timerKey].records[recordKey].end = timestamp;
 
     this.setState({ timerGroups: timerGroups });
   }
 
+  timerSetActive(timerGroupKey, timerKey) {
+    // end active timer
+
+    // start new timer
+
+  }
+
+  timerPauseActive(timerGroupKey, timerKey) {
+    // end active timer
+
+  }
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
+      <div className="iat-app">
+        <header className="iat-header">
           <Title title="I'm a Timer App" />
           <Modal title="beta">
             <h2>This app is in beta!</h2>
             <p>Don't rely on it in any way.</p>
           </Modal>
         </header>
-        <ContentBox>
-          {
-            Object
-              .keys(this.state.timerGroups)
-              .map((key) => <TimerGroup key={key} index={key} group={this.state.timerGroups[key]} />)
-          }
-        </ContentBox>
-        <footer>
+        <div className="iat-page">
+          <ContentBox>
+            {
+              Object
+                .keys(this.state.timerGroups)
+                .map((key) => <TimerGroup 
+                  key={key}
+                  index={key}
+                  group={this.state.timerGroups[key]}
+                  timerGroupRemove={this.timerGroupRemove}
+                  timerGroupUpdate={this.timerGroupUpdate}
+                  timerAdd={this.timerAdd}
+                  timerRemove={this.timerRemove}
+                  timerUpdate={this.timerUpdate}
+                  timerRecordStart={this.timerRecordStart}
+                  timerRecordEnd={this.timerRecordEnd}
+                />)
+            }
+          </ContentBox>
+        </div>
+        <footer className="iat-footer">
           <p>I like to footer</p>
           <Modal title="Privacy">
             <p>All timer data is stored locally in your web browser, so there is nothing to keep private.</p>
