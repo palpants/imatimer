@@ -7,6 +7,8 @@ import ContentBox from './components/ContentBox';
 import TimerGroup from './components/TimerGroup';
 import AddTimerGroup from './components/AddTimerGroup';
 
+import sampleTimers from './sample/sample-timers';
+
 class App extends React.Component {
   constructor() {
     super();
@@ -19,69 +21,10 @@ class App extends React.Component {
     this.timerUpdate = this.timerUpdate.bind(this);
     this.timerRecordStart = this.timerRecordStart.bind(this);
     this.timerRecordEnd = this.timerRecordEnd.bind(this);
+    this.timerSetActive = this.timerSetActive.bind(this);
+    this.timerStopActive = this.timerStopActive.bind(this);
 
-    this.state = {
-      active: {
-        timerGroup: 1,
-        timer: 2
-      },
-      timerGroups: {
-        1: {
-          title: 'Timer Group 1',
-          time: 123,
-          timers: {
-            1: {
-              title: 'I like to time',
-              time: 63,
-              records: {
-                1: {
-                  start: 0,
-                  end: 33,
-                },
-                2: {
-                  start: 0,
-                  end: 30,
-                },
-              },
-            },
-            2: {
-              title: 'A second timer',
-              time: 60,
-              records: {
-                1: {
-                  start: 0,
-                  end: 20,
-                },
-                2: {
-                  start: 0,
-                  end: 40,
-                },
-              },
-            },
-          },
-        },
-        2: {
-          title: 'Timer Group 2',
-          time: 67,
-          timers: {
-            1: {
-              title: 'This is a timer',
-              time: 67,
-              records: {
-                1: {
-                  start: 0,
-                  end: 34,
-                },
-                2: {
-                  start: 0,
-                  end: 33,
-                },
-              },
-            },
-          },
-        },
-      },
-    };
+    this.state = sampleTimers;
 
   }
 
@@ -160,7 +103,7 @@ class App extends React.Component {
 
   }
 
-  timerPauseActive(timerGroupKey, timerKey) {
+  timerStopActive(timerGroupKey, timerKey) {
     // end active timer
 
   }
