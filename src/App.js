@@ -25,7 +25,6 @@ class App extends React.Component {
     this.timerStopActive = this.timerStopActive.bind(this);
 
     this.state = sampleTimers;
-
   }
 
   timerGroupAdd(timerGroup) {
@@ -85,6 +84,8 @@ class App extends React.Component {
     timerGroups[timerGroupKey].timers[timerKey].records[`record-${timestamp}`].start = timestamp;
 
     this.setState({ timerGroups: timerGroups });
+
+    return `record-${timestamp}`;
   }
 
   timerRecordEnd(timerGroupKey, timerKey, recordKey) {
@@ -97,15 +98,35 @@ class App extends React.Component {
   }
 
   timerSetActive(timerGroupKey, timerKey) {
-    // end active timer
+    let activeTimer = {...this.state.active};
+    // end active timer record
+    if (activeTimer.timerGroup && activeTimer.timer && activeTimer.record) {
+      this.timerRecordEnd(activeTimer.timerGroup, activeTimer.timer, activeTimer.record)
+    }
+    // start new timer record
+    const recordKey = this.timerRecordStart(timerGroupKey, timerKey);
+    // update active timer
+    activeTimer = {
+      timerGroup: timerGroupKey,
+      timer: timerKey,
+      record: recordKey,
+    };
 
-    // start new timer
-
+    this.setState({ active: activeTimer });
   }
 
   timerStopActive(timerGroupKey, timerKey) {
-    // end active timer
+    let activeTimer = {...this.state.active};
+    // end active timer record
+    this.timerRecordEnd(activeTimer.timerGroup, activeTimer.timer, activeTimer.record)
+    // clear active timer
+    activeTimer = {
+      timerGroup: 0,
+      timer: 0,
+      record: 0,
+    };
 
+    this.setState({ active: activeTimer });
   }
 
   render() {
@@ -132,8 +153,8 @@ class App extends React.Component {
                   timerAdd={this.timerAdd}
                   timerRemove={this.timerRemove}
                   timerUpdate={this.timerUpdate}
-                  timerRecordStart={this.timerRecordStart}
-                  timerRecordEnd={this.timerRecordEnd}
+                  timerSetActive={this.timerSetActive}
+                  timerStopActive={this.timerStopActive}
                 />)
             }
           </ContentBox>

@@ -2,7 +2,8 @@
 const timers = {
   active: {
     timerGroup: 1,
-    timer: 2
+    timer: 2,
+    record: 2,
   },
   timerGroups: {
     1: {
