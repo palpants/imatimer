@@ -75,12 +75,10 @@ export function recordEnd(groupKey, key, recordKey, record) {
   }
 }
 */
-export function activeSet(groupKey, timerKey, recordKey) {
+export function activeSet(active) {
   return {
     type: ACTIVE_SET,
-    groupKey: groupKey,
-    timerKey: timerKey,
-    recordKey: recordKey
+    active: active
   }
 }
 
