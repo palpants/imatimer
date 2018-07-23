@@ -3,7 +3,7 @@ import './App.css';
 
 import Title from './components/Title';
 import Modal from './components/Modal';
-import ContentBox from './components/ContentBox';
+import TimerGridContainer from './components/TimerGridContainer';
 import TimerGroup from './components/TimerGroup';
 import AddTimerGroup from './components/AddTimerGroup';
 
@@ -20,24 +20,7 @@ class App extends React.Component {
           </Modal>
         </header>
         <div className="iat-page">
-          <ContentBox>
-            {
-              Object
-                .keys(this.state.timerGroups)
-                .map((key) => <TimerGroup 
-                  key={key}
-                  index={key}
-                  group={this.state.timerGroups[key]}
-                  timerGroupRemove={this.timerGroupRemove}
-                  timerGroupUpdate={this.timerGroupUpdate}
-                  timerAdd={this.timerAdd}
-                  timerRemove={this.timerRemove}
-                  timerUpdate={this.timerUpdate}
-                  timerSetActive={this.timerSetActive}
-                  timerStopActive={this.timerStopActive}
-                />)
-            }
-          </ContentBox>
+          <TimerGridContainer />
         </div>
         <footer className="iat-footer">
           <p>I like to footer</p>

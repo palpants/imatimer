@@ -1,36 +1,35 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class Timer extends React.Component {
-  constructor() {
-    super();
-
+  constructor(props) {
+    super(props);
+    this.state = { elapsed: 0, start: 0 };
     this.tick = this.tick.bind(this);
-
-    this.state = { elapsed: 0 };
   }
 
-  componentDidMount(){
+  componentDidMount() {
     // set the interval
-    this.timer = setInterval(this.tick, 50);
+    this.timer = setInterval(this.tick, 100);
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     // clear the interval
     clearInterval(this.timer);
   }
 
-  tick(){
-    // called every 50 ms
+  tick() {
+    // called every 100 ms
     // updates the elapsed counter
-    this.setState({elapsed: new Date() - this.props.start});
+    this.setState({ elapsed: new Date() - this.props.start });
   }
 
   render() {
     // calculate elapsed to tenth of a second
-    var elapsed = Math.round(this.state.elapsed / 100);
+    let elapsed = Math.round(this.state.elapsed / 100);
 
     // give a number with one digit after the decimal
-    var seconds = (elapsed / 10).toFixed(1);
+    let seconds = (elapsed / 10).toFixed(1);
 
     return (
       <div>
@@ -40,7 +39,7 @@ class Timer extends React.Component {
         </p>
       </div>
     );
-  }
+  };
 };
 
 export default Timer;

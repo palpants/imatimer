@@ -4,6 +4,7 @@ const sample = {
     timerGroup: 1,
     timer: 2,
     record: 2,
+    start: 0,
   },
   timerGroups: {
     1: {
